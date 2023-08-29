@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digit Recognizer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        body {
+            font-family: 'Garamond', serif;
+            background: #000; /* Black */
+            color: white;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.7);
+            margin-bottom: 30px;
+        }
+
+        form {
+            background: rgba(0, 0, 0, 0.8); /* Semi-transparent black */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(155, 97, 217, 0.2);
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        label, input {
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        input[type="file"] {
+            color: transparent; /* Hide the default file input text */
+        }
+
+        input[type="file"]::-webkit-file-upload-button {
+            visibility: hidden;
+        }
+
+        input[type="file"]::before {
+            content: 'Select a file';
+            color: white;
+            display: inline-block;
+            background: #333; /* Dark gray button */
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"] {
+            background-color: #333; /* Dark gray */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #555; /* Lighter gray */
+            transform: scale(1.05);
+        }
+
+        #result {
+            width: 80%;
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            animation: fadeIn 2s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <h1>Digit Recognizer</h1>
+    <form action="/predict_digit" method="post" enctype="multipart/form-data">
+        <label for="image">Upload a handwritten digit:</label>
+        <input type="file" name="image" accept="image/*" required>
+        <br><br>
+        <input type="submit" value="Predict">
+    </form>
+    <br>
+    <div id="result">
+        <!-- The predicted digit will be displayed here -->
+    </div>
+
+    <script>
+        // Handle the form submission
+        const form = document.querySelector('form');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(form);
+            try {
+                const response = await fetch('/predict_digit', {
+                    method: 'POST',
+                    body: formData
+                });
+                if (!response.ok) {
+                    throw new Error(`Server responded with ${response.status}: ${response.statusText}`);
+                }
+                const result = await response.json();
+                
+                // Display the predicted digit
+                document.getElementById('result').textContent = 'Predicted Digit: ' + result.predicted_digit;
+            } catch (error) {
+                // Display the error message in the errorLog div
+                console.error('Error:', error.message);
+            }
+        });
+    </script>
+</body>
+</html>
