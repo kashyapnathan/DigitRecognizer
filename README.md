@@ -21,7 +21,7 @@ git clone https://github.com/kashyapnathan/DigitRecognizer.git
 cd DigitRecognizer
 ```
 
-### Install the required packages:
+### Install the required packages
 
 
 ### Run the Flask application:
