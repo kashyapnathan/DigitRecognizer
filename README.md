@@ -11,24 +11,24 @@ Sleek and user-friendly interface.
 ## Installation
 ### Clone the repository:
 
-'''
+```
 git clone https://github.com/kashyapnathan/DigitRecognizer.git
-'''
+```
 
 ### Navigate to the project directory:
 
-'''
+```
 cd DigitRecognizer
-'''
+```
 
 ### Install the required packages:
 
 
 ### Run the Flask application:
 
-'''
+```
 python app.py
-'''
+```
 
 ## Usage
 * Open a web browser and navigate to http://127.0.0.1:5000/.
